@@ -1,6 +1,7 @@
 from tkinter import *
 from Tki import *
 
+
 class KiWidget(KiObject, KiPack):
     def __init__(self):
         super().__init__()
@@ -14,6 +15,9 @@ class KiWidget(KiObject, KiPack):
 
     def SetMaster(self, Master):
         self.Widget.configure(master=Master)
+
+    def SetState(self, State: str):
+        self.Widget.configure(state=State)
 
     def SetRelief(self, Relief):
         self.Widget.configure(relief=Relief)
@@ -52,8 +56,8 @@ class KiWindow(KiWidget):
         self.Widget.geometry(f"{Width}x{Height}")
 
     def Center(self):
-        X = round(int(self.GetScreenWidth())/2) + round(int(self.GetWidth())/2)
-        Y = round(int(self.GetScreenHeight())/2) + round(int(self.GetHeight())/2)
+        X = round(int(self.GetScreenWidth()) / 2) + round(int(self.GetWidth()) / 2)
+        Y = round(int(self.GetScreenHeight()) / 2) + round(int(self.GetHeight()) / 2)
         self.Move(X, Y)
 
     def Move(self, X: int = None, Y: int = None):
@@ -68,11 +72,27 @@ class KiWindow(KiWidget):
 
 class KiButton(KiWidget):
     def __init__(self, Master: KiWidget = None, Text: str = EmptyString, Command=EmptyFunc,
-                 ActiveBackground: str = "white", ActiveForeground: str = "black"):
+                 ActiveBackground: str = "white", ActiveForeground: str = "black",
+                 Background: str = "white", Foreground: str = "black",
+                 Width=0):
         super().__init__()
         self.Widget = Button(master=Master.GetWidget(), text=Text, command=Command,
-                             activebackground=ActiveBackground, activeforeground=ActiveForeground,)
+                             activebackground=ActiveBackground, activeforeground=ActiveForeground,
+                             background=Background, foreground=Foreground)
         self.Init()
+
+    def SetText(self, Text):
+        self.Configure(Text=Text)
+
+    def SetCommand(self, Func):
+        self.Configure(Command=Func)
+
+    def Configure(self, Master: KiWidget = None, Text: str = EmptyString, Command=EmptyFunc,
+                  ActiveBackground: str = "white", ActiveForeground: str = "black",
+                  Background: str = "white", Foreground: str = "black"):
+        self.Widget.configure(master=Master.GetWidget(), text=Text, command=Command,
+                              activebackground=ActiveBackground, activeforeground=ActiveForeground,
+                              background=Background, foreground=Foreground)
 
     def Flash(self):
         self.Widget.flash()
